@@ -1,0 +1,26 @@
+{
+  "name": "scribo",
+  "version": "0.0.1",
+  "description": "Just a JavaScript SQL query builder from POJOs.",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "mocha": "^5.2.0"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/0xc14m1z/scribo.git"
+  },
+  "author": "0xc14m1z <0xc14m1z@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/0xc14m1z/scribo/issues"
+  },
+  "homepage": "https://github.com/0xc14m1z/scribo#readme"
+}
