@@ -1,5 +1,7 @@
 # scribo
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/f9938a97f4b74c18b14851e14e8fe8ef)](https://app.codacy.com/app/0xc14m1z/scribo?utm_source=github.com&utm_medium=referral&utm_content=0xc14m1z/scribo&utm_campaign=Badge_Grade_Dashboard)
+
 Just a JavaScript SQL query builder from POJOs
 
 
