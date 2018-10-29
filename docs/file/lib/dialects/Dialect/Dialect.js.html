@@ -2,8 +2,8 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <base data-ice="baseUrl" href="../../../">
-  <title data-ice="title">lib/Scribo/Scribo.js | scribo</title>
+  <base data-ice="baseUrl" href="../../../../">
+  <title data-ice="title">lib/dialects/Dialect/Dialect.js | scribo</title>
   <link type="text/css" rel="stylesheet" href="css/style.css">
   <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
   <script src="script/prettify/prettify.js"></script>
@@ -33,27 +33,35 @@
 </div>
 </nav>
 
-<div class="content" data-ice="content"><h1 data-ice="title">lib/Scribo/Scribo.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">const ANSI = require(&apos;../dialects/ANSI&apos;)
+<div class="content" data-ice="content"><h1 data-ice="title">lib/dialects/Dialect/Dialect.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">class Dialect {
+  build(definition) {
+    const type = Dialect.queryDefinitionType(definition)
+    const innerDefinition = definition[type]
 
-class Scribo {
-  constructor(Dialect = ANSI) {
-    this.dialect = new Dialect()
-  }
-
-  query(definition) {
-    if (definition) {
-      return this.dialect.build(definition)
+    try {
+      return this[type](innerDefinition)
+    } catch (error) {
+      throw new Error(&apos;Unrecognized query definition type&apos;)
     }
-    throw new Error(&apos;Invalid query definition&apos;)
   }
 
-  sql(definition) {
-    return this.query(definition).sql
+  static queryDefinitionType(definition) {
+    let types
+    try {
+      types = Object.keys(definition)
+    } catch (error) {
+      throw new Error(&apos;Invalid query definition&apos;)
+    }
+
+    if (types.length === 1) {
+      return types[0]
+    }
+    throw new Error(&apos;Unrecognized query definition type&apos;)
   }
 }
 
-module.exports = Scribo
+module.exports = Dialect
 </code></pre>
 
 </div>

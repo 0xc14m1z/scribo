@@ -306,6 +306,18 @@ window.esdocSearchIndex = [
     "file"
   ],
   [
+    "lib/dialects/dialect/dialect.js",
+    "file/lib/dialects/Dialect/Dialect.js.html",
+    "lib/dialects/Dialect/Dialect.js",
+    "file"
+  ],
+  [
+    "lib/dialects/dialect/index.js",
+    "file/lib/dialects/Dialect/index.js.html",
+    "lib/dialects/Dialect/index.js",
+    "file"
+  ],
+  [
     "lib/dialects/index.js",
     "file/lib/dialects/index.js.html",
     "lib/dialects/index.js",

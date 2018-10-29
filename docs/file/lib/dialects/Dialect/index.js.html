@@ -2,8 +2,8 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <base data-ice="baseUrl" href="../../../">
-  <title data-ice="title">lib/Scribo/Scribo.js | scribo</title>
+  <base data-ice="baseUrl" href="../../../../">
+  <title data-ice="title">lib/dialects/Dialect/index.js | scribo</title>
   <link type="text/css" rel="stylesheet" href="css/style.css">
   <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
   <script src="script/prettify/prettify.js"></script>
@@ -33,27 +33,8 @@
 </div>
 </nav>
 
-<div class="content" data-ice="content"><h1 data-ice="title">lib/Scribo/Scribo.js</h1>
-<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">const ANSI = require(&apos;../dialects/ANSI&apos;)
-
-class Scribo {
-  constructor(Dialect = ANSI) {
-    this.dialect = new Dialect()
-  }
-
-  query(definition) {
-    if (definition) {
-      return this.dialect.build(definition)
-    }
-    throw new Error(&apos;Invalid query definition&apos;)
-  }
-
-  sql(definition) {
-    return this.query(definition).sql
-  }
-}
-
-module.exports = Scribo
+<div class="content" data-ice="content"><h1 data-ice="title">lib/dialects/Dialect/index.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">module.exports = require(&apos;./Dialect&apos;)
 </code></pre>
 
 </div>

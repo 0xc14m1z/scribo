@@ -567,9 +567,9 @@
     "__docId__": 48,
     "kind": "file",
     "name": "lib/Scribo/Scribo.js",
-    "content": "const ANSI = require('../dialects/ANSI')\n\nclass Scribo {\n  constructor(Dialect = ANSI) {\n    this.dialect = new Dialect()\n  }\n}\n\nmodule.exports = Scribo\n",
+    "content": "const ANSI = require('../dialects/ANSI')\n\nclass Scribo {\n  constructor(Dialect = ANSI) {\n    this.dialect = new Dialect()\n  }\n\n  query(definition) {\n    if (definition) {\n      return this.dialect.build(definition)\n    }\n    throw new Error('Invalid query definition')\n  }\n\n  sql(definition) {\n    return this.query(definition).sql\n  }\n}\n\nmodule.exports = Scribo\n",
     "static": true,
-    "longname": "/Users/lucaramundo/Dropbox/github/scribo/lib/Scribo/Scribo.js",
+    "longname": "/home/xc14m1z/Dropbox/github/scribo/lib/Scribo/Scribo.js",
     "access": "public",
     "description": null,
     "lineNumber": 1
@@ -645,28 +645,103 @@
   },
   {
     "__docId__": 53,
+    "kind": "method",
+    "name": "query",
+    "memberof": "lib/Scribo/Scribo.js~Scribo",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "lib/Scribo/Scribo.js~Scribo#query",
+    "access": "public",
+    "description": null,
+    "lineNumber": 8,
+    "undocument": true,
+    "params": [
+      {
+        "name": "definition",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 54,
+    "kind": "method",
+    "name": "sql",
+    "memberof": "lib/Scribo/Scribo.js~Scribo",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "lib/Scribo/Scribo.js~Scribo#sql",
+    "access": "public",
+    "description": null,
+    "lineNumber": 15,
+    "undocument": true,
+    "params": [
+      {
+        "name": "definition",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 55,
     "kind": "file",
     "name": "lib/Scribo/index.js",
     "content": "module.exports = require('./Scribo')\n",
     "static": true,
-    "longname": "/Users/lucaramundo/Dropbox/github/scribo/lib/Scribo/index.js",
+    "longname": "/home/xc14m1z/Dropbox/github/scribo/lib/Scribo/index.js",
     "access": "public",
     "description": null,
     "lineNumber": 1
   },
   {
-    "__docId__": 54,
+    "__docId__": 56,
     "kind": "file",
     "name": "lib/dialects/ANSI/ANSI.js",
-    "content": "class ANSI {\n  constructor() {}\n}\n\nmodule.exports = ANSI\n",
+    "content": "const Dialect = require('../Dialect')\n\nclass ANSI extends Dialect {\n}\n\nmodule.exports = ANSI\n",
     "static": true,
-    "longname": "/Users/lucaramundo/Dropbox/github/scribo/lib/dialects/ANSI/ANSI.js",
+    "longname": "/home/xc14m1z/Dropbox/github/scribo/lib/dialects/ANSI/ANSI.js",
     "access": "public",
     "description": null,
     "lineNumber": 1
   },
   {
-    "__docId__": 55,
+    "__docId__": 57,
+    "kind": "variable",
+    "name": "Dialect",
+    "memberof": "lib/dialects/ANSI/ANSI.js",
+    "static": true,
+    "longname": "lib/dialects/ANSI/ANSI.js~Dialect",
+    "access": "public",
+    "export": false,
+    "importPath": "scribo/lib/dialects/ANSI/ANSI.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 1,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 58,
     "kind": "class",
     "name": "ANSI",
     "memberof": "lib/dialects/ANSI/ANSI.js",
@@ -677,49 +752,131 @@
     "importPath": "scribo/lib/dialects/ANSI/ANSI.js",
     "importStyle": null,
     "description": null,
+    "lineNumber": 3,
+    "undocument": true,
+    "interface": false,
+    "extends": [
+      "Dialect"
+    ],
+    "ignore": true
+  },
+  {
+    "__docId__": 59,
+    "kind": "file",
+    "name": "lib/dialects/ANSI/index.js",
+    "content": "module.exports = require('./ANSI')\n",
+    "static": true,
+    "longname": "/home/xc14m1z/Dropbox/github/scribo/lib/dialects/ANSI/index.js",
+    "access": "public",
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 60,
+    "kind": "file",
+    "name": "lib/dialects/Dialect/Dialect.js",
+    "content": "class Dialect {\n  build(definition) {\n    const type = Dialect.queryDefinitionType(definition)\n    const innerDefinition = definition[type]\n\n    try {\n      return this[type](innerDefinition)\n    } catch (error) {\n      throw new Error('Unrecognized query definition type')\n    }\n  }\n\n  static queryDefinitionType(definition) {\n    let types\n    try {\n      types = Object.keys(definition)\n    } catch (error) {\n      throw new Error('Invalid query definition')\n    }\n\n    if (types.length === 1) {\n      return types[0]\n    }\n    throw new Error('Unrecognized query definition type')\n  }\n}\n\nmodule.exports = Dialect\n",
+    "static": true,
+    "longname": "/home/xc14m1z/Dropbox/github/scribo/lib/dialects/Dialect/Dialect.js",
+    "access": "public",
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 61,
+    "kind": "class",
+    "name": "Dialect",
+    "memberof": "lib/dialects/Dialect/Dialect.js",
+    "static": true,
+    "longname": "lib/dialects/Dialect/Dialect.js~Dialect",
+    "access": "public",
+    "export": false,
+    "importPath": "scribo/lib/dialects/Dialect/Dialect.js",
+    "importStyle": null,
+    "description": null,
     "lineNumber": 1,
     "undocument": true,
     "interface": false,
     "ignore": true
   },
   {
-    "__docId__": 56,
-    "kind": "constructor",
-    "name": "constructor",
-    "memberof": "lib/dialects/ANSI/ANSI.js~ANSI",
+    "__docId__": 62,
+    "kind": "method",
+    "name": "build",
+    "memberof": "lib/dialects/Dialect/Dialect.js~Dialect",
     "generator": false,
     "async": false,
     "static": false,
-    "longname": "lib/dialects/ANSI/ANSI.js~ANSI#constructor",
+    "longname": "lib/dialects/Dialect/Dialect.js~Dialect#build",
     "access": "public",
     "description": null,
     "lineNumber": 2,
-    "undocument": true
+    "undocument": true,
+    "params": [
+      {
+        "name": "definition",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
   },
   {
-    "__docId__": 57,
-    "kind": "file",
-    "name": "lib/dialects/ANSI/index.js",
-    "content": "module.exports = require('./ANSI')\n",
+    "__docId__": 63,
+    "kind": "method",
+    "name": "queryDefinitionType",
+    "memberof": "lib/dialects/Dialect/Dialect.js~Dialect",
+    "generator": false,
+    "async": false,
     "static": true,
-    "longname": "/Users/lucaramundo/Dropbox/github/scribo/lib/dialects/ANSI/index.js",
+    "longname": "lib/dialects/Dialect/Dialect.js~Dialect.queryDefinitionType",
+    "access": "public",
+    "description": null,
+    "lineNumber": 13,
+    "undocument": true,
+    "params": [
+      {
+        "name": "definition",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 64,
+    "kind": "file",
+    "name": "lib/dialects/Dialect/index.js",
+    "content": "module.exports = require('./Dialect')\n",
+    "static": true,
+    "longname": "/home/xc14m1z/Dropbox/github/scribo/lib/dialects/Dialect/index.js",
     "access": "public",
     "description": null,
     "lineNumber": 1
   },
   {
-    "__docId__": 58,
+    "__docId__": 65,
     "kind": "file",
     "name": "lib/dialects/index.js",
     "content": "const ANSI = require('./ANSI')\n\nmodule.exports = { ANSI }\n",
     "static": true,
-    "longname": "/Users/lucaramundo/Dropbox/github/scribo/lib/dialects/index.js",
+    "longname": "/home/xc14m1z/Dropbox/github/scribo/lib/dialects/index.js",
     "access": "public",
     "description": null,
     "lineNumber": 1
   },
   {
-    "__docId__": 59,
+    "__docId__": 66,
     "kind": "variable",
     "name": "ANSI",
     "memberof": "lib/dialects/index.js",
@@ -742,15 +899,15 @@
   {
     "kind": "index",
     "content": "# scribo\n\n[![Codacy Badge](https://api.codacy.com/project/badge/Grade/f9938a97f4b74c18b14851e14e8fe8ef)](https://app.codacy.com/app/0xc14m1z/scribo?utm_source=github.com&utm_medium=referral&utm_content=0xc14m1z/scribo&utm_campaign=Badge_Grade_Dashboard) [![Build Status](https://travis-ci.org/0xc14m1z/scribo.svg?branch=master)](https://travis-ci.org/0xc14m1z/scribo)\n\nJust a JavaScript SQL query builder from POJOs.\n\n## Syntax\n\n### DDL\n\n#### Create Database\n\n```js\nconst query = {\n  create: {\n    database: {\n      name: 'databasename',\n      characterSet: Dialect.characterSets.CHARACTER_SET,\n      collate: Dialect.collation.COLLATION,\n      ifNotExist: true\n    }\n  }\n}\n```\n\n#### Alter Database\n\n```js\nconst query = {\n  alter: {\n    database: {\n      name: 'databasename',\n      characterSet: Dialect.characterSets.CHARACTER_SET,\n      collate: Dialect.collation.COLLATION\n    }\n  }\n}\n```\n\n#### Drop Database\n\n```js\nconst query = {\n  drop: {\n    database: 'databasename'\n  }\n}\n```\n\n#### Create Table\n\n```js\nconst query = {\n  create: {\n    table: {\n      name: 'tablename',\n      columns: {\n        'columnname': {\n          type: Dialect.types.Type,\n          primaryKey: true,\n          unique: true,\n          notNull: 'defaultvalue',\n          foreignKey: {\n            references: {\n              table: 'tablename',\n              columns: ['columnname', 'columnname']\n            },\n            on: {\n              delete: Dialect.constraints.ON,\n              update: Dialect.constraints.ON\n            }\n          }\n        }\n      },\n      characterSet: Dialect.characterSets.CHARACTER_SET,\n      collate: Dialect.collation.COLLATION,\n      ifNotExist: true\n    }\n  }\n}\n```\n\n#### Alter Table\n\n```js\nconst query = {\n  alter: {\n    table: {\n      add: {\n        table: 'tablename',\n        column: {\n          'columnname': {\n            type: Dialect.types.Type,\n            primaryKey: true,\n            unique: true,\n            notNull: 'defaultvalue',\n            foreignKey: {\n              references: {\n                table: 'tablename',\n                columns: ['columnname', 'columnname']\n              },\n              on: {\n                delete: Dialect.constraints.ON,\n                update: Dialect.constraints.ON\n              }\n            }\n          }\n        }\n      },\n      modify: {\n        table: 'tablename',\n        column: {\n          'columnname': {\n            type: Dialect.types.Type,\n            primaryKey: true,\n            unique: true,\n            notNull: 'defaultvalue',\n            foreignKey: {\n              references: {\n                table: 'tablename',\n                columns: ['columnname', 'columnname']\n              },\n              on: {\n                delete: Dialect.constraints.ON,\n                update: Dialect.constraints.ON\n              }\n            }\n          }\n        }\n      },\n      drop: 'columnname'\n    }\n  }\n}\n```\n\n#### Drop Table\n\n```js\nconst query = {\n  drop: {\n    table: {\n      'tablename': {\n        restrict: true\n      }\n    }\n  }\n}\n```\n\n#### Rename Table\n\n```js\nconst query = {\n  rename: {\n    table: {\n      'tablename': 'newtablename'\n    }\n  }\n}\n```\n\n#### Create Index\n\n```js\nconst query = {\n  create: {\n    index: {\n      on: {\n        table: 'tablename',\n        columns: {\n          'columnname': Dialect.indexOrder.ORDER\n        }\n      },\n      unique: true\n    }\n  }\n}\n```\n\n#### Drop Index\n\n```js\nconst query = {\n  drop: {\n    index: {\n      'tablename': 'indexname'\n    }\n  }\n}\n```\n",
-    "longname": "/Users/lucaramundo/Dropbox/github/scribo/README.md",
+    "longname": "/home/xc14m1z/Dropbox/github/scribo/README.md",
     "name": "./README.md",
     "static": true,
     "access": "public"
   },
   {
     "kind": "packageJSON",
-    "content": "{\n  \"name\": \"scribo\",\n  \"version\": \"0.0.1\",\n  \"description\": \"Just a JavaScript SQL query builder from POJOs.\",\n  \"main\": \"index.js\",\n  \"directories\": {\n    \"lib\": \"lib\"\n  },\n  \"dependencies\": {},\n  \"devDependencies\": {\n    \"chai\": \"^4.2.0\",\n    \"esdoc\": \"^1.1.0\",\n    \"esdoc-standard-plugin\": \"^1.0.0\",\n    \"eslint\": \"^5.6.1\",\n    \"eslint-config-airbnb-base\": \"^13.1.0\",\n    \"eslint-plugin-import\": \"^2.14.0\",\n    \"mocha\": \"^5.2.0\"\n  },\n  \"scripts\": {\n    \"test\": \"NODE_ENV=test mocha '**/*.test.js'\",\n    \"dev\": \"npm test -- -w\",\n    \"docs\": \"esdoc\"\n  },\n  \"repository\": {\n    \"type\": \"git\",\n    \"url\": \"git+https://github.com/0xc14m1z/scribo.git\"\n  },\n  \"author\": \"0xc14m1z <0xc14m1z@gmail.com>\",\n  \"license\": \"ISC\",\n  \"bugs\": {\n    \"url\": \"https://github.com/0xc14m1z/scribo/issues\"\n  },\n  \"homepage\": \"https://github.com/0xc14m1z/scribo#readme\"\n}\n",
-    "longname": "/Users/lucaramundo/Dropbox/github/scribo/package.json",
+    "content": "{\n  \"name\": \"scribo\",\n  \"version\": \"0.0.1\",\n  \"description\": \"Just a JavaScript SQL query builder from POJOs.\",\n  \"main\": \"index.js\",\n  \"directories\": {\n    \"lib\": \"lib\"\n  },\n  \"dependencies\": {},\n  \"devDependencies\": {\n    \"chai\": \"^4.2.0\",\n    \"esdoc\": \"^1.1.0\",\n    \"esdoc-standard-plugin\": \"^1.0.0\",\n    \"eslint\": \"^5.6.1\",\n    \"eslint-config-airbnb-base\": \"^13.1.0\",\n    \"eslint-plugin-import\": \"^2.14.0\",\n    \"mocha\": \"^5.2.0\"\n  },\n  \"scripts\": {\n    \"test\": \"NODE_ENV=test mocha '**/**/*.test.js'\",\n    \"dev\": \"npm test -- -w\",\n    \"docs\": \"esdoc\"\n  },\n  \"repository\": {\n    \"type\": \"git\",\n    \"url\": \"git+https://github.com/0xc14m1z/scribo.git\"\n  },\n  \"author\": \"0xc14m1z <0xc14m1z@gmail.com>\",\n  \"license\": \"ISC\",\n  \"bugs\": {\n    \"url\": \"https://github.com/0xc14m1z/scribo/issues\"\n  },\n  \"homepage\": \"https://github.com/0xc14m1z/scribo#readme\"\n}\n",
+    "longname": "/home/xc14m1z/Dropbox/github/scribo/package.json",
     "name": "package.json",
     "static": true,
     "access": "public"
