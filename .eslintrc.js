@@ -1,6 +1,8 @@
 module.exports = {
   "extends": "airbnb-base",
   "rules": {
-    "semi": ["error", "never"]
+    "semi": ["error", "never"],
+    "comma-dangle": ["error", "never"],
+    "implicit-arrow-linebreak": "off"
   }
 }
